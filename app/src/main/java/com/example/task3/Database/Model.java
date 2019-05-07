@@ -11,7 +11,7 @@ public class Model implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    @ColumnInfo(name = "task")
+    @ColumnInfo(name = "name")
     private String name;
 
     @ColumnInfo(name = "college")
@@ -80,6 +80,6 @@ public class Model implements Serializable {
         this.gpa = gpa;
     }
 
-    @ColumnInfo(name = "age")
+    @ColumnInfo(name = "gpa")
     private double gpa;
 }

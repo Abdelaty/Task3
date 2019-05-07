@@ -17,9 +17,13 @@ public interface Dao {
     @Query("select college from Model")
     LiveData<List<Model>> getAllColleges();
 
+    @Query("select id and password from Model where id like :studentId and password like:studentPassword")
+    Boolean checkAuth(int studentId, String studentPassword);
+
     @Insert(onConflict = REPLACE)
     void addStudent(Model borrowModel);
 
     @Delete
     void deleteStudent(Model borrowModel);
 }
+
