@@ -32,10 +32,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, int position) {
         Model studentModel = borrowModelList.get(position);
         holder.nameTextView.setText(studentModel.getName());
-        holder.idTextView.setText(studentModel.getId());
+        holder.idTextView.setText(String.valueOf(studentModel.id));
         holder.gpaTextView.setText(Double.toString(studentModel.getGpa()));
         holder.collegeTextView.setText(studentModel.getCollege());
-        holder.genderTextView.setText(Boolean.toString(studentModel.isGender()));
+        holder.genderTextView.setText(String.valueOf(studentModel.isGender()));
+        holder.collegeTextView.setText(studentModel.getCollege());
         holder.itemView.setTag(studentModel);
         holder.itemView.setOnLongClickListener(longClickListener);
     }

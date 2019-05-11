@@ -3,26 +3,32 @@ package com.example.task3.Database;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-
-import java.io.Serializable;
+import android.support.annotation.NonNull;
 
 @Entity
-public class Model implements Serializable {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
-
+public class Model {
+    @NonNull
     @ColumnInfo(name = "name")
     private String name;
+    @NonNull
 
     @ColumnInfo(name = "college")
     private String college;
+    @NonNull
 
     @ColumnInfo(name = "gender")
-    private boolean gender;
+    private int gender;
+    @NonNull
 
     @ColumnInfo(name = "password")
     private String password;
 
+    @NonNull
+    public int getGender() {
+        return gender;
+    }
+
+    @NonNull
     public int getId() {
         return id;
     }
@@ -31,6 +37,7 @@ public class Model implements Serializable {
         this.id = id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
@@ -39,6 +46,7 @@ public class Model implements Serializable {
         this.name = name;
     }
 
+    @NonNull
     public String getCollege() {
         return college;
     }
@@ -47,14 +55,15 @@ public class Model implements Serializable {
         this.college = college;
     }
 
-    public boolean isGender() {
+    public int isGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
+    @NonNull
     public String getPassword() {
         return password;
     }
@@ -63,6 +72,7 @@ public class Model implements Serializable {
         this.password = password;
     }
 
+    @NonNull
     public double getGpa() {
         return gpa;
     }
@@ -71,7 +81,7 @@ public class Model implements Serializable {
         this.gpa = gpa;
     }
 
-    public Model(int id, String name, String college, boolean gender, String password, double gpa) {
+    public Model(int id, String name, String college, int gender, String password, double gpa) {
         this.id = id;
         this.name = name;
         this.college = college;
@@ -80,6 +90,12 @@ public class Model implements Serializable {
         this.gpa = gpa;
     }
 
+    @NonNull
+
     @ColumnInfo(name = "gpa")
     private double gpa;
+    @NonNull
+    @PrimaryKey
+    public int id;
+
 }
