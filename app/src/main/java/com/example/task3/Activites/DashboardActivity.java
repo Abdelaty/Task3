@@ -52,7 +52,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.edit_button:
-                startIntent = new Intent(this, EditStudentsActivity.class);
+                startIntent = new Intent(this, EditCollegeActivity.class);
                 startIntent.putExtra(KEYP, id);
 
                 startActivity(startIntent);
