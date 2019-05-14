@@ -16,6 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -43,6 +48,8 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
     //Toasty
-//    implementation 'com.github.GrenderG:Toasty:1.1.1'
+//    implementation 'com.github.GrenderG:Toasty:1.4.2'
+//    implementation 'com.github.GrenderG:Toasty:1.4.1'
+
 
 }
