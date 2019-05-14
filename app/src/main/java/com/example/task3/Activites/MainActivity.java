@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                CollegeModel collegeModel = new CollegeModel("IT");
-                CollegeModel collegeMode2 = new CollegeModel("Media");
+                CollegeModel collegeModel = new CollegeModel("IT", 0);
+                CollegeModel collegeMode2 = new CollegeModel("Media", 1);
                 collegeDB.getCollegeDao().add(collegeModel);
                 collegeDB.getCollegeDao().add(collegeMode2);
-                CollegeModel collegeMode3 = new CollegeModel("Engineering");
-                CollegeModel collegeMode4 = new CollegeModel("Bio");
+                CollegeModel collegeMode3 = new CollegeModel("Engineering", 2);
+                CollegeModel collegeMode4 = new CollegeModel("Bio", 3);
                 collegeDB.getCollegeDao().add(collegeMode3);
                 collegeDB.getCollegeDao().add(collegeMode4);
                 Log.v("College", collegeDB.getCollegeDao().getAllColleges().get(1));

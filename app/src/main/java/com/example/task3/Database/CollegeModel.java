@@ -7,9 +7,9 @@ import android.support.annotation.NonNull;
 
 @Entity
 public class CollegeModel {
-    public CollegeModel(@NonNull String collegeName) {
-        this.collegeName = collegeName;
-    }
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    private int collegeId;
 
 
     @NonNull
@@ -21,8 +21,20 @@ public class CollegeModel {
         this.collegeName = collegeName;
     }
 
-    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "name")
     private String collegeName;
+
+    public CollegeModel(@NonNull String collegeName, int collegeId) {
+        this.collegeName = collegeName;
+        this.collegeId = collegeId;
+    }
+
+    public int getCollegeId() {
+        return collegeId;
+    }
+
+    public void setCollegeId(int collegeId) {
+        this.collegeId = collegeId;
+    }
 }

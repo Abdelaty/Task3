@@ -29,12 +29,16 @@ public class Model {
     }
 
     @NonNull
-    public int getId() {
-        return id;
-    }
+    @PrimaryKey
+    public String id;
 
-    public void setId(int id) {
+    public Model(String id, String name, String college, int gender, String password, double gpa) {
         this.id = id;
+        this.name = name;
+        this.college = college;
+        this.gender = gender;
+        this.password = password;
+        this.gpa = gpa;
     }
 
     @NonNull
@@ -81,21 +85,18 @@ public class Model {
         this.gpa = gpa;
     }
 
-    public Model(int id, String name, String college, int gender, String password, double gpa) {
-        this.id = id;
-        this.name = name;
-        this.college = college;
-        this.gender = gender;
-        this.password = password;
-        this.gpa = gpa;
+    @NonNull
+    public String getId() {
+        return id;
     }
 
     @NonNull
 
     @ColumnInfo(name = "gpa")
     private double gpa;
-    @NonNull
-    @PrimaryKey
-    public int id;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
 }

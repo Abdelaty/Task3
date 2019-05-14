@@ -10,14 +10,18 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 @android.arch.persistence.room.Dao
 public interface CollegeDao {
-    @Query("select * from CollegeModel")
+    @Query("select name from CollegeModel")
     List<String> getAllColleges();
 
     @Insert(onConflict = REPLACE)
     void add(CollegeModel... collegeModels);
 
-    @Update
+    @Update(onConflict = REPLACE)
     void update(CollegeModel... collegeModels);
+
+    @Query("Update CollegeModel SET name =:newName where id like :id")
+    void update(String newName, int id);
+
 //
 //    @Query("update CollegeModel Set name=:newname Where name:oldname ")
 //    void update(String newname,String oldname);

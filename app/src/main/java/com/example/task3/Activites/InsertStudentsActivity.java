@@ -81,7 +81,7 @@ public class InsertStudentsActivity extends AppCompatActivity {
                     Log.v("Adding Student", password.getText().toString());
                     Log.v("Adding Student", String.valueOf(Double.parseDouble(gpa.getText().toString())));
                     AddViewModel.addStudent(new Model(
-                            Integer.parseInt(String.valueOf(id.getText())),
+                            id.getText().toString(),
                             name.getText().toString(),
                             spinner.getSelectedItem().toString(),
                             gender,
