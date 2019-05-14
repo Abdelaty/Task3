@@ -17,7 +17,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.task3.Database.CollegeDB;
-import com.example.task3.Database.Database;
 import com.example.task3.Database.Model;
 import com.example.task3.R;
 import com.example.task3.ViewModel.AddViewModel;
@@ -34,7 +33,6 @@ public class InsertStudentsActivity extends AppCompatActivity {
     RadioButton male, female;
     CollegeDB collegeDB;
     List<String> list = new ArrayList<String>();
-    Database database;
     AddViewModel addViewModel;
 
     @Override
@@ -45,7 +43,6 @@ public class InsertStudentsActivity extends AppCompatActivity {
         addViewModel = ViewModelProviders.of(this).get(AddViewModel.class);
 
         collegeDB = Room.databaseBuilder(getApplicationContext(), CollegeDB.class, "college_db").build();
-        database = Room.databaseBuilder(getApplicationContext(), Database.class, "students_db").build();
 
         AsyncTask.execute(new Runnable() {
             @Override
@@ -96,7 +93,7 @@ public class InsertStudentsActivity extends AppCompatActivity {
 
                     finish();
                 } catch (Exception e) {
-                    Log.v("Adding Student", e.getMessage().toString() + e.getLocalizedMessage());
+                    Log.v("Adding Student", e.getMessage() + e.getLocalizedMessage());
                 }
 
             }

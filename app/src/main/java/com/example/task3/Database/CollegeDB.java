@@ -11,12 +11,12 @@ import android.support.annotation.NonNull;
 @android.arch.persistence.room.Database(entities = {CollegeModel.class}, version = 1, exportSchema = false)
 public abstract class CollegeDB extends RoomDatabase {
 
-    private static Database INSTANCE;
+    private static CollegeDB INSTANCE;
 
-    public static Database getDatabase(Context context) {
+    public static CollegeDB getDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), Database.class, "colleges_db")
+                    Room.databaseBuilder(context.getApplicationContext(), CollegeDB.class, "colleges_db")
                             .build();
         }
         return INSTANCE;

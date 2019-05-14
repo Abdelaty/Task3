@@ -35,7 +35,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.idTextView.setText(String.valueOf(studentModel.id));
         holder.gpaTextView.setText(Double.toString(studentModel.getGpa()));
         holder.collegeTextView.setText(studentModel.getCollege());
-        holder.genderTextView.setText(String.valueOf(studentModel.isGender()));
+        if (String.valueOf(studentModel.isGender()).equals(1)) {
+
+            holder.genderTextView.setText("Male");
+
+        } else {
+            holder.genderTextView.setText("Female");
+
+
+        }
         holder.collegeTextView.setText(studentModel.getCollege());
         holder.itemView.setTag(studentModel);
         holder.itemView.setOnLongClickListener(longClickListener);
@@ -60,11 +68,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         RecyclerViewHolder(View view) {
             super(view);
-            nameTextView = (TextView) view.findViewById(R.id.student_name);
-            idTextView = (TextView) view.findViewById(R.id.student_id);
-            genderTextView = (TextView) view.findViewById(R.id.student_gender);
-            collegeTextView = (TextView) view.findViewById(R.id.student_college);
-            gpaTextView = (TextView) view.findViewById(R.id.student_gpa);
+            nameTextView = view.findViewById(R.id.student_name);
+            idTextView = view.findViewById(R.id.student_id);
+            genderTextView = view.findViewById(R.id.student_gender);
+            collegeTextView = view.findViewById(R.id.student_college);
+            gpaTextView = view.findViewById(R.id.student_gpa);
 
 
         }

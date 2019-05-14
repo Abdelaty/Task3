@@ -1,8 +1,10 @@
 package com.example.task3.Activites;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,8 +19,11 @@ import android.widget.Toast;
 
 import com.example.task3.Database.CollegeDB;
 import com.example.task3.Database.CollegeModel;
-import com.example.task3.Database.Database;
+import com.example.task3.Database.Dao;
+import com.example.task3.Database.StudentDatabase;
 import com.example.task3.R;
+
+import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,30 +34,32 @@ public class MainActivity extends AppCompatActivity {
     String KEYP = "USERKEY";
     Boolean b = false;
 
-    Database db;
+    @SuppressLint("StaticFieldLeak")
+    static Context context;
     CollegeDB collegeDB;
+    StudentDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-//        final Intent intent = new Intent(this, DashboardActivity.class);
-
-
-        db = Room.databaseBuilder(getApplicationContext(), Database.class, "students_db")
-                .build();
+        database = Room.databaseBuilder(getApplicationContext(), StudentDatabase.class, "student_db").allowMainThreadQueries().build();
 
 
         collegeDB = Room.databaseBuilder(getApplicationContext(), CollegeDB.class, "college_db").build();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                CollegeModel collegeModel = new CollegeModel( "TT");
-                CollegeModel collegeMode2 = new CollegeModel( "Media");
+                CollegeModel collegeModel = new CollegeModel("IT");
+                CollegeModel collegeMode2 = new CollegeModel("Media");
                 collegeDB.getCollegeDao().add(collegeModel);
                 collegeDB.getCollegeDao().add(collegeMode2);
-//                Log.v("College", collegeDB.getCollegeDao().getAllColleges().get(0).getCollegeName());
+                CollegeModel collegeMode3 = new CollegeModel("Engineering");
+                CollegeModel collegeMode4 = new CollegeModel("Bio");
+                collegeDB.getCollegeDao().add(collegeMode3);
+                collegeDB.getCollegeDao().add(collegeMode4);
+                Log.v("College", collegeDB.getCollegeDao().getAllColleges().get(1));
             }
         });
 
@@ -64,38 +71,28 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent2 = new Intent(getApplication(), DashboardActivity.class);
                     intent2.putExtra(KEY, "Admin");
                     startActivity(intent2);
-                } else if (checkTask()) {
+                } else {
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Boolean authenticated;
-                                {
-                                    runOnUiThread(new Runnable() {
-                                        public void run() {
-                                            String userName;
-                                            userName = db.getDao().getName(Integer.parseInt(userId.getText().toString())).toString();
-                                            Intent intent1 = new Intent(getApplication(), DashboardActivity.class);
-                                            intent1.putExtra(KEYP, userId.getText());
-                                            intent1.putExtra(KEY, userName);
-                                            startActivity(intent1);
-                                        }
-                                    });
-                                }
-                            } catch (SQLiteConstraintException ex) {
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(getApplicationContext(), "No user in database", Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                            int mUserId = Integer.parseInt(userId.getText().toString());
+                            String mUserPass = userPass.getText().toString();
+                            Log.v("tag", "" + mUserId + mUserPass);
+                            if (!(database.getDao().checkAuth(mUserId, mUserPass) == null)) {
+                                String userName;
+                                Log.v("tag", "we in");
+                                userName = database.getDao().getName(Integer.parseInt(userId.getText().toString()));
+                                Intent intent1 = new Intent(getApplication(), DashboardActivity.class);
+                                intent1.putExtra(KEYP, userId.getText());
+                                intent1.putExtra(KEY, userName);
+                                startActivity(intent1);
                             }
                         }
+
+
                     });
-                } else {
-
-                    Toast.makeText(getApplicationContext(), "No user in database", Toast.LENGTH_LONG).show();
-
                 }
+
             }
         });
     }
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    b = db.getDao().checkAuth(Integer.parseInt(userId.getText().toString()), userPass.getText().toString());
+//                    b = db.getDao().checkAuth(Integer.parseInt(userId.getText().toString()), userPass.getText().toString());
                 } catch (Exception r) {
                     toast();
                 }
@@ -122,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.button);
         userId = findViewById(R.id.student_id);
         userPass = findViewById(R.id.student_password);
-
+        context = getApplicationContext();
     }
 
     void toast() {
@@ -135,5 +132,43 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+    }
+
+    private static class AgentAsyncTask extends AsyncTask<Void, Void, Integer> {
+
+        //Prevent leak
+        private WeakReference<Activity> weakActivity;
+        private int asyncUserId;
+        private String asyncUserPass;
+//        private String license;
+
+        public AgentAsyncTask(Activity activity, String password, int user) {
+            weakActivity = new WeakReference<>(activity);
+            this.asyncUserPass = password;
+            this.asyncUserId = user;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            Dao asyncDao = StudentDatabase.getDatabase(context).getDao();
+            return 0;
+//            asyncDao.checkAuth(asyncUserId, asyncUserPass);
+        }
+
+        @Override
+        protected void onPostExecute(Integer agentsCount) {
+            Activity activity = weakActivity.get();
+            if (activity == null) {
+                return;
+            }
+
+            if (agentsCount > 0) {
+                //2: If it already exists then prompt user
+                Toast.makeText(activity, "Agent already exists!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(activity, "Agent does not exist! Hurray :)", Toast.LENGTH_LONG).show();
+                activity.onBackPressed();
+            }
+        }
     }
 }

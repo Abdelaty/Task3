@@ -5,8 +5,8 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import com.example.task3.Database.Database;
 import com.example.task3.Database.Model;
+import com.example.task3.Database.StudentDatabase;
 
 import java.util.List;
 
@@ -14,12 +14,12 @@ public class StudentsListViewModel extends AndroidViewModel {
 
     private final LiveData<List<Model>> studentList;
 
-    private Database appDatabase;
+    private StudentDatabase appDatabase;
 
     public StudentsListViewModel(Application application) {
         super(application);
 
-        appDatabase = Database.getDatabase(this.getApplication());
+        appDatabase = StudentDatabase.getDatabase(this.getApplication());
 
         studentList = appDatabase.getDao().getAllStudents();
     }
@@ -35,9 +35,9 @@ public class StudentsListViewModel extends AndroidViewModel {
 
     private static class deleteAsyncTask extends AsyncTask<Model, Void, Void> {
 
-        private Database db;
+        private StudentDatabase db;
 
-        deleteAsyncTask(Database appDatabase) {
+        deleteAsyncTask(StudentDatabase appDatabase) {
             db = appDatabase;
         }
 

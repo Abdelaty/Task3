@@ -8,15 +8,15 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-@android.arch.persistence.room.Database(entities = {Model.class}, version = 1,exportSchema = false)
-public abstract class Database extends RoomDatabase {
+@android.arch.persistence.room.Database(entities = {Model.class}, version = 1, exportSchema = false)
+public abstract class StudentDatabase extends RoomDatabase {
 
-    private static Database INSTANCE;
+    private static StudentDatabase INSTANCE;
 
-    public static Database getDatabase(Context context) {
+    public static StudentDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), Database.class, "student_db")
+                    Room.databaseBuilder(context.getApplicationContext(), StudentDatabase.class, "student_db")
                             .build();
         }
         return INSTANCE;

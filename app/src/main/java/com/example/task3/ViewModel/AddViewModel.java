@@ -5,17 +5,17 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import com.example.task3.Database.Database;
 import com.example.task3.Database.Model;
+import com.example.task3.Database.StudentDatabase;
 
 public class AddViewModel extends AndroidViewModel {
 
-    private static Database appStudentsDatabase;
+    private static StudentDatabase appStudentsDatabase;
 
     public AddViewModel(@NonNull Application application) {
         super(application);
 
-        appStudentsDatabase = Database.getDatabase(this.getApplication());
+        appStudentsDatabase = StudentDatabase.getDatabase(this.getApplication());
 
     }
 
@@ -25,15 +25,19 @@ public class AddViewModel extends AndroidViewModel {
 
     private static class addAsyncTask extends AsyncTask<Model, Void, Void> {
 
-        private Database db;
+        private StudentDatabase db;
 
-        addAsyncTask(Database appDatabase) {
+        addAsyncTask(StudentDatabase appDatabase) {
             db = appDatabase;
         }
 
         @Override
         protected Void doInBackground(final Model... params) {
-            db.getDao().addStudent(params[0]);
+            try {
+                db.getDao().addStudent(params[0]);
+            } catch (Exception c) {
+
+            }
             return null;
         }
 

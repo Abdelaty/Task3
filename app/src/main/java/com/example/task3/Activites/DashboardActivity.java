@@ -35,9 +35,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         insertButton.setOnClickListener(this);
         viewButton.setOnClickListener(this);
         editButton.setOnClickListener(this);
-        String user = Objects.requireNonNull(intent.getExtras()).getString(KEY).toString();
+        String user = Objects.requireNonNull(intent.getExtras()).getString(KEY);
         welcomeText.setText("Welcome back " + user);
-//        welcomeText.setText(+ (intent.getExtras()).getString(KEY));
         id = intent.getExtras().getString(KEYP);
 
     }

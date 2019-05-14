@@ -1,7 +1,5 @@
 package com.example.task3.Database;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -14,10 +12,13 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface CollegeDao {
     @Query("select * from CollegeModel")
     List<String> getAllColleges();
-//
-//    @Query("select college from Model")
-//    List<Model> getAllColleges();
 
     @Insert(onConflict = REPLACE)
     void add(CollegeModel... collegeModels);
+
+    @Update
+    void update(CollegeModel... collegeModels);
+//
+//    @Query("update CollegeModel Set name=:newname Where name:oldname ")
+//    void update(String newname,String oldname);
 }
